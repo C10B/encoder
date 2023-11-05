@@ -1,0 +1,6 @@
+﻿Number of shift registers: 3
+Starting state: 0,0,0
+Input: 1,0,1,1,0,0,0
+Output A:1,1,1
+Output B:0,1,1
+Output C:1,0,1
