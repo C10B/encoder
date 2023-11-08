@@ -16,6 +16,7 @@ namespace encoder.code
         private List<int> _outputBsetup = new List<int>();
         private List<int> _outputCsetup = new List<int>();
         private List<int> _inputValues = new List<int>();
+        private List<int> _progressiveStates = new List<int>();
         private string _configFolder = "";
         private string _configFile = "";
         public string LastErrorMessage = "";
@@ -29,6 +30,15 @@ namespace encoder.code
         //input is readonly as it comes from the config file
         public string Input { get {
                 return string.Join("", _inputValues); 
+            }
+        }
+
+        //the calculated ABC values (readonly of course)
+        public string ProgressiveStates
+        {
+            get
+            {
+                return string.Join("", _progressiveStates);
             }
         }
 
@@ -85,10 +95,17 @@ namespace encoder.code
                 //shuffle the bits along (Third takes value of Second,Second of First etc)
                 for (int j= _shiftRegisterCount - 1; j>0; j--)
                 {
-                    _shiftRegisters[j].Value = _shiftRegisters[j-1].Value;
+                    _shiftRegisters[j].Value = _shiftRegisters[j-1].Value;                    
                 }
                 //put the current bit in the first
                 _shiftRegisters[0].Value = _inputValues[i];
+
+
+                for (int j = 0;j< _shiftRegisterCount; j++)
+                {
+                    _progressiveStates.Add(_shiftRegisters[j].Value);
+                }
+
 
                 Debug.WriteLine("registers after right shift " + string.Join(", ", _shiftRegisters));
 
@@ -97,6 +114,8 @@ namespace encoder.code
                 CalculateOutput(_outputAsetup, ref valueA);
                 CalculateOutput(_outputBsetup, ref valueB);
                 CalculateOutput(_outputCsetup, ref valueC);
+
+                
 
                 Debug.WriteLine("calculated ABC is " + valueA.ToString() + valueB.ToString() + valueC.ToString() );
                 Debug.WriteLine("");

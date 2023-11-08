@@ -39,7 +39,7 @@ else
 //show the chart (if we got this far)
 //the chart is provided as a list of indivual lines to be written one after the other
 Chart chart=new Chart();
-foreach(string line in chart.generateAsciiChart(encoder.Input, encoder.Output))
+foreach(string line in chart.generateAsciiChart(encoder.Input, encoder.Output,encoder.ProgressiveStates,"000"))
 {
     Console.WriteLine(line);
 }

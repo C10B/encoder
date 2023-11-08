@@ -13,7 +13,7 @@ namespace encoder.code
         private List<string> chartLines = new List<string>();
         
         
-        public List<string> generateAsciiChart(string inputBits, string outputBits)
+        public List<string> generateAsciiChart(string inputBits, string outputBits, string progressiveStates, string startingBits)
         {
             const string colDivider = "|";
             const char gridDot = '■';
@@ -42,13 +42,14 @@ namespace encoder.code
             rowString += "n/a".PadLeft(colXwidth, ' ') + colDivider;
             for (int i = 0; i < inputBits.Length; i++)
             {
-                rowString += outputBits.Substring(i, numberOfShiftRegisters).ToString().PadLeft(colXwidth, ' ') + colDivider;
+                rowString += outputBits.Substring(i* numberOfShiftRegisters, numberOfShiftRegisters).ToString().PadLeft(colXwidth, ' ') + colDivider;
             }
             chartLines.Add(rowString);
 
 
-            //loop through each possible output
-            for (int row = 0; row < Math.Pow(2, numberOfShiftRegisters); row++)
+            //loop through each possible output row
+            //(ABC give 8 possibilities)
+            for (int row = 0; row < 8; row++)
             {
                 //build the row
                 rowString = "";
@@ -57,7 +58,14 @@ namespace encoder.code
                 rowString += col1String + colDivider;
                 for (int col = -1; col < inputBits.Length; col++) {
                     string colXString = "";
-                    colXString = "".PadLeft(colXwidth, gridDot);
+                    if (checkBits(binaryString, progressiveStates, outputBits, numberOfShiftRegisters, startingBits,col))
+                    {
+                        colXString = "".PadLeft(colXwidth, gridDot);
+                    }
+                    else
+                    {
+                        colXString = "".PadLeft(colXwidth, ' ');
+                    }
                     rowString += colXString + colDivider;
                 }
                 chartLines.Add(rowString);
@@ -66,6 +74,24 @@ namespace encoder.code
             chartLines.Add("");//blank line
 
             return chartLines;
+        }
+
+        private Boolean checkBits(string binaryString,string progressiveStates, string outputBits, int numberOfShiftRegisters, string startingBits,int col)
+        {
+            //binary string is the state on the left
+            //progressiveStates is a string of states during the encoding (these are the blocks on the char)
+            //but note we have a col of -1 which will use the default bits as nothing has happened yet
+            if (col < 0)
+            {
+                return (binaryString == startingBits);                
+            }
+            else
+            {
+                string compareBits = progressiveStates.Substring(col * numberOfShiftRegisters, numberOfShiftRegisters);
+                return (binaryString == compareBits);
+            }
+            
+
         }
     }
 }
