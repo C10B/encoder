@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -70,18 +71,26 @@ namespace encoder.code
 
         private Boolean _encode()
         {
+            Debug.WriteLine("");
+            Debug.WriteLine("Start Encode with " + string.Join(", ", _inputValues));
+
             string outputString = "";
 
             //loop through every bit in the input
-            for(int i = 0; i < _inputValues.Count - 1;i++)
+            for(int i = 0; i < _inputValues.Count;i++)
             {
-                //shuffle the bits along (Third takes value of Second,Second of First)
-                for(int j= _shiftRegisterCount - 1; j>0; j--)
+                Debug.WriteLine(i + ") input bit is a " + _inputValues[i]);
+                Debug.WriteLine("registers already have " + string.Join(", ", _shiftRegisters));
+
+                //shuffle the bits along (Third takes value of Second,Second of First etc)
+                for (int j= _shiftRegisterCount - 1; j>0; j--)
                 {
                     _shiftRegisters[j].Value = _shiftRegisters[j-1].Value;
                 }
                 //put the current bit in the first
                 _shiftRegisters[0].Value = _inputValues[i];
+
+                Debug.WriteLine("registers after right shift " + string.Join(", ", _shiftRegisters));
 
                 //with the bits shuffled, run the calcs!
                 int valueA=0,valueB=0,valueC = 0;
@@ -89,7 +98,10 @@ namespace encoder.code
                 CalculateOutput(_outputBsetup, ref valueB);
                 CalculateOutput(_outputCsetup, ref valueC);
 
-                outputString+=(valueA);
+                Debug.WriteLine("calculated ABC is " + valueA.ToString() + valueB.ToString() + valueC.ToString() );
+                Debug.WriteLine("");
+
+                outputString += (valueA);
                 outputString += (valueB);
                 outputString += (valueC);
             }

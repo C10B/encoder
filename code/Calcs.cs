@@ -37,7 +37,7 @@ namespace encoder.code
          
                 //which registers do we xor?
                 List<int> registerValuesToUse = new List<int>();
-                for (int i = 0; i < shiftRegisters.Count - 1; i++)
+                for (int i = 0; i < shiftRegisters.Count; i++)
                 {
                     if (outputSetup[i] == 1) registerValuesToUse.Add(shiftRegisters[i].Value);
                 }

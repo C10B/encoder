@@ -9,5 +9,14 @@ namespace encoder.code
     internal class ShiftRegister
     {
         public int Value { get; set; }
+
+        
+        public override string ToString()
+        {
+            //using ToString helps with charting to easily get the value
+            return Value.ToString();
+        }
     }
+
+
 }
