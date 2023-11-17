@@ -15,7 +15,7 @@ namespace encoder.code
         
         public List<string> generateAsciiChart(string inputBits, string outputBits, string progressiveStates, string startingBits)
         {
-            const string colDivider = "|";
+            const string colDivider = "||";
             const char gridDot = '■';
             int numberOfShiftRegisters = (int)(outputBits.Length / inputBits.Length);            
             int col1width = numberOfShiftRegisters + 4;

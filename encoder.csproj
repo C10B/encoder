@@ -11,6 +11,9 @@
     <None Update="ConfigFiles\bigconfig.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="ConfigFiles\tinytest.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="ConfigFiles\config1.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
